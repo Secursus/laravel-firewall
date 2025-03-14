@@ -1,6 +1,6 @@
 <?php
 
-namespace Akaunting\Firewall\Notifications;
+namespace Secursus\Firewall\Notifications;
 
 use Illuminate\Notifications\Notifiable as NotifiableTrait;
 

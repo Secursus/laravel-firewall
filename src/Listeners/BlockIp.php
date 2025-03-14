@@ -1,10 +1,10 @@
 <?php
 
-namespace Akaunting\Firewall\Listeners;
+namespace Secursus\Firewall\Listeners;
 
-use Akaunting\Firewall\Events\AttackDetected;
-use Akaunting\Firewall\Models\Ip;
-use Akaunting\Firewall\Models\Log;
+use Secursus\Firewall\Events\AttackDetected;
+use Secursus\Firewall\Models\Ip;
+use Secursus\Firewall\Models\Log;
 use Carbon\Carbon;
 
 class BlockIp

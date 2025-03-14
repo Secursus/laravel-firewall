@@ -1,8 +1,8 @@
 <?php
 
-namespace Akaunting\Firewall\Commands;
+namespace Secursus\Firewall\Commands;
 
-use Akaunting\Firewall\Models\Ip;
+use Secursus\Firewall\Models\Ip;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 

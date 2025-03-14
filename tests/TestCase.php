@@ -1,8 +1,8 @@
 <?php
 
-namespace Akaunting\Firewall\Tests;
+namespace Secursus\Firewall\Tests;
 
-use Akaunting\Firewall\Provider;
+use Secursus\Firewall\Provider;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase

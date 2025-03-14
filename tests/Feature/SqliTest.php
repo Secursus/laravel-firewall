@@ -1,9 +1,9 @@
 <?php
 
-namespace Akaunting\Firewall\Tests\Feature;
+namespace Secursus\Firewall\Tests\Feature;
 
-use Akaunting\Firewall\Middleware\Sqli;
-use Akaunting\Firewall\Tests\TestCase;
+use Secursus\Firewall\Middleware\Sqli;
+use Secursus\Firewall\Tests\TestCase;
 
 class SqliTest extends TestCase
 {

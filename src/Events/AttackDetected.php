@@ -1,6 +1,6 @@
 <?php
 
-namespace Akaunting\Firewall\Events;
+namespace Secursus\Firewall\Events;
 
 class AttackDetected
 {

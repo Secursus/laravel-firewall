@@ -1,12 +1,12 @@
 <?php
 
-namespace Akaunting\Firewall;
+namespace Secursus\Firewall;
 
-use Akaunting\Firewall\Commands\UnblockIp;
-use Akaunting\Firewall\Events\AttackDetected;
-use Akaunting\Firewall\Listeners\BlockIp;
-use Akaunting\Firewall\Listeners\CheckLogin;
-use Akaunting\Firewall\Listeners\NotifyUsers;
+use Secursus\Firewall\Commands\UnblockIp;
+use Secursus\Firewall\Events\AttackDetected;
+use Secursus\Firewall\Listeners\BlockIp;
+use Secursus\Firewall\Listeners\CheckLogin;
+use Secursus\Firewall\Listeners\NotifyUsers;
 use Illuminate\Auth\Events\Failed as LoginFailed;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Routing\Router;
@@ -64,20 +64,20 @@ class Provider extends ServiceProvider
     public function registerMiddleware($router)
     {
         $router->middlewareGroup('firewall.all', config('firewall.all_middleware'));
-        $router->aliasMiddleware('firewall.agent', 'Akaunting\Firewall\Middleware\Agent');
-        $router->aliasMiddleware('firewall.bot', 'Akaunting\Firewall\Middleware\Bot');
-        $router->aliasMiddleware('firewall.ip', 'Akaunting\Firewall\Middleware\Ip');
-        $router->aliasMiddleware('firewall.geo', 'Akaunting\Firewall\Middleware\Geo');
-        $router->aliasMiddleware('firewall.lfi', 'Akaunting\Firewall\Middleware\Lfi');
-        $router->aliasMiddleware('firewall.php', 'Akaunting\Firewall\Middleware\Php');
-        $router->aliasMiddleware('firewall.referrer', 'Akaunting\Firewall\Middleware\Referrer');
-        $router->aliasMiddleware('firewall.rfi', 'Akaunting\Firewall\Middleware\Rfi');
-        $router->aliasMiddleware('firewall.session', 'Akaunting\Firewall\Middleware\Session');
-        $router->aliasMiddleware('firewall.sqli', 'Akaunting\Firewall\Middleware\Sqli');
-        $router->aliasMiddleware('firewall.swear', 'Akaunting\Firewall\Middleware\Swear');
-        $router->aliasMiddleware('firewall.url', 'Akaunting\Firewall\Middleware\Url');
-        $router->aliasMiddleware('firewall.whitelist', 'Akaunting\Firewall\Middleware\Whitelist');
-        $router->aliasMiddleware('firewall.xss', 'Akaunting\Firewall\Middleware\Xss');
+        $router->aliasMiddleware('firewall.agent', 'Secursus\Firewall\Middleware\Agent');
+        $router->aliasMiddleware('firewall.bot', 'Secursus\Firewall\Middleware\Bot');
+        $router->aliasMiddleware('firewall.ip', 'Secursus\Firewall\Middleware\Ip');
+        $router->aliasMiddleware('firewall.geo', 'Secursus\Firewall\Middleware\Geo');
+        $router->aliasMiddleware('firewall.lfi', 'Secursus\Firewall\Middleware\Lfi');
+        $router->aliasMiddleware('firewall.php', 'Secursus\Firewall\Middleware\Php');
+        $router->aliasMiddleware('firewall.referrer', 'Secursus\Firewall\Middleware\Referrer');
+        $router->aliasMiddleware('firewall.rfi', 'Secursus\Firewall\Middleware\Rfi');
+        $router->aliasMiddleware('firewall.session', 'Secursus\Firewall\Middleware\Session');
+        $router->aliasMiddleware('firewall.sqli', 'Secursus\Firewall\Middleware\Sqli');
+        $router->aliasMiddleware('firewall.swear', 'Secursus\Firewall\Middleware\Swear');
+        $router->aliasMiddleware('firewall.url', 'Secursus\Firewall\Middleware\Url');
+        $router->aliasMiddleware('firewall.whitelist', 'Secursus\Firewall\Middleware\Whitelist');
+        $router->aliasMiddleware('firewall.xss', 'Secursus\Firewall\Middleware\Xss');
     }
 
     /**

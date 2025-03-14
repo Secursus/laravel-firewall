@@ -16,7 +16,7 @@ Note: Some middleware classes (i.e. Xss) are empty as the `Middleware` abstract 
 Run the following command:
 
 ```bash
-composer require akaunting/laravel-firewall
+composer require secursus/laravel-firewall
 ```
 
 ### 2. Publish

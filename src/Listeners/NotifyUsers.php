@@ -1,10 +1,10 @@
 <?php
 
-namespace Akaunting\Firewall\Listeners;
+namespace Secursus\Firewall\Listeners;
 
-use Akaunting\Firewall\Events\AttackDetected as Event;
-use Akaunting\Firewall\Notifications\AttackDetected;
-use Akaunting\Firewall\Notifications\Notifiable;
+use Secursus\Firewall\Events\AttackDetected as Event;
+use Secursus\Firewall\Notifications\AttackDetected;
+use Secursus\Firewall\Notifications\Notifiable;
 use Throwable;
 
 class NotifyUsers

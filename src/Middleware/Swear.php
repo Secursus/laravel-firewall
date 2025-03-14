@@ -1,8 +1,8 @@
 <?php
 
-namespace Akaunting\Firewall\Middleware;
+namespace Secursus\Firewall\Middleware;
 
-use Akaunting\Firewall\Abstracts\Middleware;
+use Secursus\Firewall\Abstracts\Middleware;
 
 class Swear extends Middleware
 {

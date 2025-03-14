@@ -1,5 +1,5 @@
 {
-    "name": "akaunting/laravel-firewall",
+    "name": "secursus/laravel-firewall",
     "description": "Web Application Firewall (WAF) package for Laravel",
     "keywords": [
       "laravel",
@@ -15,9 +15,8 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "Denis Duliçi",
-            "email": "info@akaunting.com",
-            "homepage": "https://akaunting.com",
+            "name": "Brisson Pierre-Alain",
+            "email": "pab@secursus.com",
             "role": "Developer"
         }
     ],
@@ -33,18 +32,18 @@
     },
     "autoload": {
         "psr-4": {
-            "Akaunting\\Firewall\\": "src"
+            "Secursus\\Firewall\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Akaunting\\Firewall\\Tests\\": "tests"
+            "Secursus\\Firewall\\Tests\\": "tests"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Akaunting\\Firewall\\Provider"
+                "Secursus\\Firewall\\Provider"
             ]
         }
     },

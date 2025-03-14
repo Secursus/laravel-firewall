@@ -1,6 +1,6 @@
 <?php
 
-namespace Akaunting\Firewall\Notifications;
+namespace Secursus\Firewall\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;

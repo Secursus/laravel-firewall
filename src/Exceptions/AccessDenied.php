@@ -1,6 +1,6 @@
 <?php
 
-namespace Akaunting\Firewall\Exceptions;
+namespace Secursus\Firewall\Exceptions;
 
 use Exception;
 

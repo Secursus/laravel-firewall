@@ -1,10 +1,10 @@
 <?php
 
-namespace Akaunting\Firewall\Tests\Feature;
+namespace Secursus\Firewall\Tests\Feature;
 
-use Akaunting\Firewall\Middleware\Ip;
-use Akaunting\Firewall\Models\Ip as Model;
-use Akaunting\Firewall\Tests\TestCase;
+use Secursus\Firewall\Middleware\Ip;
+use Secursus\Firewall\Models\Ip as Model;
+use Secursus\Firewall\Tests\TestCase;
 
 class IpTest extends TestCase
 {

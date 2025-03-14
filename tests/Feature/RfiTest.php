@@ -1,9 +1,9 @@
 <?php
 
-namespace Akaunting\Firewall\Tests\Feature;
+namespace Secursus\Firewall\Tests\Feature;
 
-use Akaunting\Firewall\Middleware\Rfi;
-use Akaunting\Firewall\Tests\TestCase;
+use Secursus\Firewall\Middleware\Rfi;
+use Secursus\Firewall\Tests\TestCase;
 
 class RfiTest extends TestCase
 {
