@@ -50,7 +50,6 @@ class Provider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(__DIR__ . '/Config/firewall.php', 'firewall');
-
         $this->app->register(\Jenssegers\Agent\AgentServiceProvider::class);
     }
 
@@ -100,7 +99,6 @@ class Provider extends ServiceProvider
     public function registerTranslations($langPath)
     {
         $this->loadTranslationsFrom(__DIR__ . '/Resources/lang', 'firewall');
-
         $this->loadTranslationsFrom($langPath, 'firewall');
     }
 
@@ -110,7 +108,10 @@ class Provider extends ServiceProvider
 
         if (config('firewall.cron.enabled')) {
             $this->app->booted(function () {
-                app(Schedule::class)->command('firewall:unblockip')->cron(config('firewall.cron.expression'));
+                app(Schedule::class)
+                    ->command('firewall:unblockip')
+                    ->cron(config('firewall.cron.expression'))
+                ;
             });
         }
     }

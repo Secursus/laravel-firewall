@@ -48,6 +48,17 @@ return [
             'channel' => env('FIREWALL_SLACK_CHANNEL', null), // set null to use the default channel of webhook
             'queue' => env('FIREWALL_SLACK_QUEUE', 'default'),
         ],
+
+        'elastic' => [
+            'enabled' => env('FIREWALL_ELASTIC_ENABLED', false),
+            'host' => env('FIREWALL_ELASTIC_HOST'), // Host ES
+            'port' => env('FIREWALL_ELASTIC_PORT', 9200),
+            'scheme' => env('FIREWALL_ELASTIC_SCHEME', 'https'),
+            'user' => env('FIREWALL_ELASTIC_USER'), // User ES
+            'pass' => env('FIREWALL_ELASTIC_PASS'), // Password ES
+            'index' => env('FIREWALL_ELASTIC_INDEX', 'laravel-firewall'), // Index ES
+            'queue' => env('FIREWALL_ELASTIC_QUEUE', 'default'),
+        ],
     ],
 
     'all_middleware' => [
