@@ -172,6 +172,7 @@ return [
 
         'lfi' => [
             'enabled' => env('FIREWALL_MIDDLEWARE_LFI_ENABLED', env('FIREWALL_ENABLED', true)),
+            'level' => 'high',
             'methods' => ['get', 'delete'],
             'routes' => [
                 'only' => [], // i.e. 'contact'
@@ -202,6 +203,7 @@ return [
 
         'php' => [
             'enabled' => env('FIREWALL_MIDDLEWARE_PHP_ENABLED', env('FIREWALL_ENABLED', true)),
+            'level' => 'high',
             'methods' => ['get', 'post', 'delete'],
             'routes' => [
                 'only' => [], // i.e. 'contact'
@@ -247,6 +249,7 @@ return [
 
         'rfi' => [
             'enabled' => env('FIREWALL_MIDDLEWARE_RFI_ENABLED', env('FIREWALL_ENABLED', true)),
+            'level' => 'high',
             'methods' => ['get', 'post', 'delete'],
             'routes' => [
                 'only' => [], // i.e. 'contact'
@@ -269,6 +272,7 @@ return [
 
         'session' => [
             'enabled' => env('FIREWALL_MIDDLEWARE_SESSION_ENABLED', env('FIREWALL_ENABLED', true)),
+            'level' => 'high',
             'methods' => ['get', 'post', 'delete'],
             'routes' => [
                 'only' => [], // i.e. 'contact'
@@ -291,6 +295,7 @@ return [
 
         'sqli' => [
             'enabled' => env('FIREWALL_MIDDLEWARE_SQLI_ENABLED', env('FIREWALL_ENABLED', true)),
+            'level' => 'high',
             'methods' => ['get', 'delete'],
             'routes' => [
                 'only' => [], // i.e. 'contact'
@@ -352,6 +357,7 @@ return [
 
         'xss' => [
             'enabled' => env('FIREWALL_MIDDLEWARE_XSS_ENABLED', env('FIREWALL_ENABLED', true)),
+            'level' => 'high',
             'methods' => ['post', 'put', 'patch'],
             'routes' => [
                 'only' => [], // i.e. 'contact'

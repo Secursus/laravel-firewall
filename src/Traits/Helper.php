@@ -86,14 +86,18 @@ trait Helper
         return ! in_array((string) $name, (array) $inputs['except']);
     }
 
-    public function log($middleware = null, $user_id = null, $level = 'medium')
+    public function log($middleware = null, $user_id = null, $level_attr = 'medium')
     {
         $middleware = $middleware ?? $this->middleware;
         $user_id = $user_id ?? $this->user_id;
 
         $model = config('firewall.models.log', Log::class);
+        $level = config('firewall.middleware.' . $middleware . '.level');
 
         $input = urldecode(http_build_query($this->request->input()));
+        if (is_null($level)) {
+            $level = $level_attr;
+        }
 
         return $model::create([
             'ip' => $this->ip(),
