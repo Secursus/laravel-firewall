@@ -4,7 +4,7 @@ namespace Secursus\Firewall\Middleware;
 
 use Secursus\Firewall\Abstracts\Middleware;
 use Secursus\Firewall\Events\AttackDetected;
-use Jenssegers\Agent\Agent as Parser;
+use Secursus\Firewall\Support\AgentParser as Parser;
 
 class Agent extends Middleware
 {
@@ -14,7 +14,7 @@ class Agent extends Middleware
     {
         $status = false;
 
-        $this->parser = new Parser();
+        $this->parser = new Parser($this->request->userAgent());
 
         if ($this->isMalicious()) {
             $status = true;

@@ -50,7 +50,6 @@ class Provider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(__DIR__ . '/Config/firewall.php', 'firewall');
-        $this->app->register(\Jenssegers\Agent\AgentServiceProvider::class);
     }
 
     /**

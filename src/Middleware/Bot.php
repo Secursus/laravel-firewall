@@ -4,13 +4,13 @@ namespace Secursus\Firewall\Middleware;
 
 use Secursus\Firewall\Abstracts\Middleware;
 use Secursus\Firewall\Events\AttackDetected;
-use Jenssegers\Agent\Agent;
+use Secursus\Firewall\Support\AgentParser as Agent;
 
 class Bot extends Middleware
 {
     public function check($patterns)
     {
-        $agent = new Agent();
+        $agent = new Agent($this->request->userAgent());
 
         if (! $agent->isRobot()) {
             return false;

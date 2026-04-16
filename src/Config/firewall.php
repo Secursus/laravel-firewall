@@ -95,7 +95,6 @@ return [
                 'only' => [], // i.e. 'contact'
                 'except' => [], // i.e. 'admin/*'
             ],
-            // https://github.com/jenssegers/agent
             'browsers' => [
                 'allow' => [], // i.e. 'Chrome', 'Firefox'
                 'block' => [], // i.e. 'IE'

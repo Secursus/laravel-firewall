@@ -5,7 +5,6 @@ namespace Secursus\Firewall\Notifications;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Messages\SlackMessage;
 use Illuminate\Notifications\Notification;
 use Secursus\Firewall\Models\Ip;
 use Secursus\Firewall\Notifications\Channel\ElasticChannel;
@@ -121,7 +120,7 @@ class AttackDetected extends Notification implements ShouldQueue
      * Get the Slack representation of the notification.
      *
      * @param  mixed  $notifiable
-     * @return SlackMessage
+     * @return mixed
      */
     public function toSlack($notifiable)
     {
@@ -129,26 +128,40 @@ class AttackDetected extends Notification implements ShouldQueue
             'domain' => request()->getHttpHost(),
         ]);
 
-        return (new SlackMessage)
+        $blocked = ($this->ip && $this->ip->blocked) ? 'Yes' : 'No';
+
+        // Block Kit API (laravel/slack-notification-channel v3)
+        if (class_exists(\Illuminate\Notifications\Slack\SlackMessage::class)) {
+            return (new \Illuminate\Notifications\Slack\SlackMessage)
+                ->text($message)
+                ->headerBlock($message)
+                ->sectionBlock(function ($block) {
+                    $block->field("*IP:*\n{$this->log->ip}")->markdown();
+                    $block->field("*Type:*\n" . ucfirst($this->log->middleware))->markdown();
+                })
+                ->sectionBlock(function ($block) use ($blocked) {
+                    $block->field("*User ID:*\n{$this->log->user_id}")->markdown();
+                    $block->field("*URL:*\n{$this->log->url}")->markdown();
+                })
+                ->sectionBlock(function ($block) use ($blocked) {
+                    $block->field("*Blocked:*\n{$blocked}")->markdown();
+                });
+        }
+
+        // Legacy webhook API (laravel/slack-notification-channel v2 / illuminate core)
+        return (new \Illuminate\Notifications\Messages\SlackMessage)
             ->error()
             ->from($this->notifications['slack']['from'], $this->notifications['slack']['emoji'])
             ->to($this->notifications['slack']['channel'])
             ->content($message)
-            ->attachment(function ($attachment) {
-                $fields = [
+            ->attachment(function ($attachment) use ($blocked) {
+                $attachment->fields([
                     'IP' => $this->log->ip,
                     'Type' => ucfirst($this->log->middleware),
                     'User ID' => $this->log->user_id,
                     'URL' => $this->log->url,
-                ];
-
-                if ($this->ip) {
-                    $fields['Blocked'] = ($this->ip->blocked) ? 'Yes' : 'No';
-                } else {
-                    $fields['Blocked'] = 'No';
-                }
-
-                $attachment->fields($fields);
+                    'Blocked' => $blocked,
+                ]);
             });
     }
 
