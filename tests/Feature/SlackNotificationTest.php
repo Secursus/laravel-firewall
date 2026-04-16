@@ -11,10 +11,13 @@ use Secursus\Firewall\Tests\TestCase;
 class SlackNotificationTest extends TestCase
 {
     protected $log;
+    protected bool $hasBlockKit;
 
     protected function setUp(): void
     {
         parent::setUp();
+
+        $this->hasBlockKit = class_exists(\Illuminate\Notifications\Slack\SlackMessage::class);
 
         $this->log = Log::create([
             'ip' => '192.168.1.100',
@@ -44,41 +47,33 @@ class SlackNotificationTest extends TestCase
         ]]);
     }
 
-    public function testToSlackReturnsBlockKitMessage()
+    public function testToSlackReturnsCorrectInstance()
     {
-        // laravel/slack-notification-channel v3 is installed, so Block Kit path should be taken
-        $this->assertTrue(
-            class_exists(\Illuminate\Notifications\Slack\SlackMessage::class),
-            'Block Kit SlackMessage class should exist (v3 installed)'
-        );
-
         $notification = new AttackDetected($this->log);
         $slack = $notification->toSlack(new Notifiable());
 
-        $this->assertInstanceOf(
-            \Illuminate\Notifications\Slack\SlackMessage::class,
-            $slack
-        );
+        if ($this->hasBlockKit) {
+            $this->assertInstanceOf(\Illuminate\Notifications\Slack\SlackMessage::class, $slack);
+        } else {
+            $this->assertInstanceOf(\Illuminate\Notifications\Messages\SlackMessage::class, $slack);
+        }
     }
 
     public function testToSlackBlockKitContainsCorrectData()
     {
+        if (! $this->hasBlockKit) {
+            $this->markTestSkipped('Block Kit (slack-notification-channel v3) not installed');
+        }
+
         $notification = new AttackDetected($this->log);
         $slack = $notification->toSlack(new Notifiable());
 
-        // Serialize to array to check blocks content
         $payload = $slack->toArray();
 
-        // Should have text fallback
         $this->assertNotEmpty($payload['text'] ?? '');
-
-        // Should have blocks
         $this->assertNotEmpty($payload['blocks'] ?? []);
-
-        // First block should be header
         $this->assertSame('header', $payload['blocks'][0]['type']);
 
-        // Section blocks should contain our data
         $blocksJson = json_encode($payload['blocks']);
         $this->assertStringContainsString('192.168.1.100', $blocksJson);
         $this->assertStringContainsString('Xss', $blocksJson);
@@ -86,8 +81,12 @@ class SlackNotificationTest extends TestCase
         $this->assertStringContainsString('example.com', $blocksJson);
     }
 
-    public function testToSlackWithBlockedIp()
+    public function testToSlackBlockKitWithBlockedIp()
     {
+        if (! $this->hasBlockKit) {
+            $this->markTestSkipped('Block Kit (slack-notification-channel v3) not installed');
+        }
+
         $notification = new AttackDetected($this->log);
         $slack = $notification->toSlack(new Notifiable());
 
@@ -95,8 +94,12 @@ class SlackNotificationTest extends TestCase
         $this->assertStringContainsString('Yes', $blocksJson);
     }
 
-    public function testToSlackWithoutBlockedIp()
+    public function testToSlackBlockKitWithoutBlockedIp()
     {
+        if (! $this->hasBlockKit) {
+            $this->markTestSkipped('Block Kit (slack-notification-channel v3) not installed');
+        }
+
         $log = Log::create([
             'ip' => '10.0.0.99',
             'level' => 'low',
@@ -113,6 +116,18 @@ class SlackNotificationTest extends TestCase
         $slack = $notification->toSlack(new Notifiable());
         $blocksJson = json_encode($slack->toArray()['blocks']);
         $this->assertStringContainsString('No', $blocksJson);
+    }
+
+    public function testToSlackLegacyMessage()
+    {
+        if ($this->hasBlockKit) {
+            $this->markTestSkipped('Legacy Slack (v2) not installed — v3 Block Kit is active');
+        }
+
+        $notification = new AttackDetected($this->log);
+        $slack = $notification->toSlack(new Notifiable());
+
+        $this->assertInstanceOf(\Illuminate\Notifications\Messages\SlackMessage::class, $slack);
     }
 
     public function testToSlackViaChannelsIncludesSlack()
