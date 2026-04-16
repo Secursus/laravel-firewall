@@ -91,26 +91,38 @@ class BotMiddlewareTest extends TestCase
 
     public function testShouldDetectSemrushBot()
     {
-        // CrawlerDetect returns "Semrush" for SemrushBot
+        $ua = 'Mozilla/5.0 (compatible; SemrushBot/7~bl; +http://www.semrush.com/bot.html)';
+
+        // Resolve the actual robot name CrawlerDetect returns for this UA
+        $parser = new \Secursus\Firewall\Support\AgentParser($ua);
+        $robotName = $parser->robot();
+        $this->assertNotFalse($robotName, 'SemrushBot should be detected as a robot');
+
         config(['firewall.middleware.bot.crawlers' => [
             'allow' => [],
-            'block' => ['Semrush'],
+            'block' => [$robotName],
         ]]);
 
-        $this->setUserAgent('Mozilla/5.0 (compatible; SemrushBot/7~bl; +http://www.semrush.com/bot.html)');
+        $this->setUserAgent($ua);
 
         $this->assertEquals('403', (new Bot())->handle($this->app->request, $this->getNextClosure())->getStatusCode());
     }
 
     public function testShouldDetectAhrefsBot()
     {
-        // CrawlerDetect returns "Ahrefs" for AhrefsBot
+        $ua = 'Mozilla/5.0 (compatible; AhrefsBot/7.0; +http://ahrefs.com/robot/)';
+
+        // Resolve the actual robot name CrawlerDetect returns for this UA
+        $parser = new \Secursus\Firewall\Support\AgentParser($ua);
+        $robotName = $parser->robot();
+        $this->assertNotFalse($robotName, 'AhrefsBot should be detected as a robot');
+
         config(['firewall.middleware.bot.crawlers' => [
             'allow' => [],
-            'block' => ['Ahrefs'],
+            'block' => [$robotName],
         ]]);
 
-        $this->setUserAgent('Mozilla/5.0 (compatible; AhrefsBot/7.0; +http://ahrefs.com/robot/)');
+        $this->setUserAgent($ua);
 
         $this->assertEquals('403', (new Bot())->handle($this->app->request, $this->getNextClosure())->getStatusCode());
     }

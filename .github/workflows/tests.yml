@@ -28,31 +28,6 @@ jobs:
             testbench: 10.*
           - laravel: 13.*
             testbench: 11.*
-          # prefer-lowest on minimum PHP per Laravel version
-          - php: '8.0'
-            laravel: 8.*
-            testbench: 6.*
-            stability: prefer-lowest
-          - php: '8.0'
-            laravel: 9.*
-            testbench: 7.*
-            stability: prefer-lowest
-          - php: '8.1'
-            laravel: 10.*
-            testbench: 8.*
-            stability: prefer-lowest
-          - php: '8.2'
-            laravel: 11.*
-            testbench: 9.*
-            stability: prefer-lowest
-          - php: '8.2'
-            laravel: 12.*
-            testbench: 10.*
-            stability: prefer-lowest
-          - php: '8.3'
-            laravel: 13.*
-            testbench: 11.*
-            stability: prefer-lowest
         exclude:
           # Laravel 8 supports PHP 8.0-8.1
           - laravel: 8.*
