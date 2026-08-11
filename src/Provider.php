@@ -107,10 +107,22 @@ class Provider extends ServiceProvider
 
         if (config('firewall.cron.enabled')) {
             $this->app->booted(function () {
-                app(Schedule::class)
+                $event = app(Schedule::class)
                     ->command('firewall:unblockip')
                     ->cron(config('firewall.cron.expression'))
                 ;
+
+                if (config('firewall.cron.on_one_server')) {
+                    $event->onOneServer();
+                }
+
+                if ($minutes = (int) config('firewall.cron.without_overlapping')) {
+                    $event->withoutOverlapping($minutes);
+                }
+
+                if (config('firewall.cron.in_background')) {
+                    $event->runInBackground();
+                }
             });
         }
     }

@@ -18,7 +18,10 @@ return [
 
     'cron' => [
         'enabled' => env('FIREWALL_CRON_ENABLED', true),
-        'expression' => env('FIREWALL_CRON_EXPRESSION', '* * * * *'),
+        'expression' => env('FIREWALL_CRON_EXPRESSION', '*/15 * * * *'),
+        'on_one_server' => env('FIREWALL_CRON_ON_ONE_SERVER', true),
+        'without_overlapping' => env('FIREWALL_CRON_WITHOUT_OVERLAPPING', 10),
+        'in_background' => env('FIREWALL_CRON_IN_BACKGROUND', true),
     ],
 
     'responses' => [
