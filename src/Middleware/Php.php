@@ -23,16 +23,16 @@ class Php extends Middleware
                 continue;
             }
 
+            if (! is_int($key) && ! $this->isInput($key)) {
+                continue;
+            }
+
             if (is_array($value)) {
                 if (! $result = $this->match($pattern, $value)) {
                     continue;
                 }
 
                 break;
-            }
-
-            if (! $this->isInput($key)) {
-                continue;
             }
 
             if (! $result = (stripos($value, $pattern) === 0)) {

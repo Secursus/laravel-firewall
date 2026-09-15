@@ -109,16 +109,16 @@ abstract class Middleware
                 continue;
             }
 
+            if (! is_int($key) && ! $this->isInput($key)) {
+                continue;
+            }
+
             if (is_array($value)) {
                 if (!$result = $this->match($pattern, $value)) {
                     continue;
                 }
 
                 break;
-            }
-
-            if (! $this->isInput($key)) {
-                continue;
             }
 
             $value = $this->prepareInput($value);

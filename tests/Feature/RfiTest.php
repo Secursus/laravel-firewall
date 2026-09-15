@@ -144,4 +144,57 @@ class RfiTest extends TestCase
 
         $this->assertEquals('next', (new Rfi())->handle($this->app->request, $this->getNextClosure()));
     }
+
+    /**
+     * Array inputs (name="description[]") must honour inputs.except just like scalar ones.
+     * The recursion used to happen before isInput() was consulted, so only the numeric
+     * indices were checked against the exclusion list — never the field name.
+     */
+    public function testShouldHonourExceptedInputsInsideArrays()
+    {
+        config(['firewall.middleware.rfi.inputs.except' => ['description']]);
+
+        $this->app->request->query->set('description', ['Suivi : https://carrier.example.com/track?id=1']);
+
+        $this->assertEquals('next', (new Rfi())->handle($this->app->request, $this->getNextClosure()));
+    }
+
+    public function testShouldStillScanNonExceptedArrays()
+    {
+        config(['firewall.middleware.rfi.inputs.except' => ['description']]);
+
+        $this->app->request->query->set('shipper_name', ['http://attacker.example.com/evil.txt']);
+
+        $this->assertEquals('403', (new Rfi())->handle($this->app->request, $this->getNextClosure())->getStatusCode());
+    }
+
+    public function testShouldHonourOnlyInputsInsideArrays()
+    {
+        config(['firewall.middleware.rfi.inputs.only' => ['url']]);
+
+        $this->app->request->query->set('comment', ['http://attacker.example.com/evil.txt']);
+
+        $this->assertEquals('next', (new Rfi())->handle($this->app->request, $this->getNextClosure()));
+
+        $this->app->request->query->set('url', ['http://attacker.example.com/evil.txt']);
+
+        $this->assertEquals('403', (new Rfi())->handle($this->app->request, $this->getNextClosure())->getStatusCode());
+    }
+
+    public function testShouldHonourExceptedInputsInsideNestedArrays()
+    {
+        config(['firewall.middleware.rfi.inputs.except' => ['description']]);
+
+        $this->app->request->query->set('parcels', [
+            ['description' => 'Suivi : https://carrier.example.com/track?id=1'],
+        ]);
+
+        $this->assertEquals('next', (new Rfi())->handle($this->app->request, $this->getNextClosure()));
+
+        $this->app->request->query->set('parcels', [
+            ['shipper_name' => 'http://attacker.example.com/evil.txt'],
+        ]);
+
+        $this->assertEquals('403', (new Rfi())->handle($this->app->request, $this->getNextClosure())->getStatusCode());
+    }
 }
