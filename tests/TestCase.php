@@ -101,6 +101,10 @@ abstract class TestCase extends BaseTestCase
             'See the file ./docs/guide.pdf attached to my previous email.',
             'Tracking link: https://www.laposte.fr/outils/suivre?code=6A1',
             'It is urgent -- can you answer today?',
+            'Please delete from my account the old address.',
+            'Could you insert into the invoice my VAT number?',
+            'Please insert into the box a fragile sticker.',
+            'We would like to delete from our contract the option B.',
         ];
     }
 }
