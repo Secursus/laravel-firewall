@@ -28,11 +28,16 @@ class BlockIp
             ->count()
         ;
 
-        if ($count != config('firewall.middleware.' . $event->log->middleware . '.auto_block.attempts')) {
+        if ($count < config('firewall.middleware.' . $event->log->middleware . '.auto_block.attempts')) {
             return;
         }
 
         $ip = config('firewall.models.ip', Ip::class);
+
+        if ($ip::blocked($event->log->ip)->exists()) {
+            return;
+        }
+
         $ip::create([
             'ip' => $event->log->ip,
             'log_id' => $event->log->id,

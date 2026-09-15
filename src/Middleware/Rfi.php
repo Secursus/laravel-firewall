@@ -6,56 +6,25 @@ use Secursus\Firewall\Abstracts\Middleware;
 
 class Rfi extends Middleware
 {
-    public function match($pattern, $input)
+    /**
+     * Strip the URLs that must not be considered as a remote file inclusion
+     * before the pattern is applied to the input.
+     *
+     * @param string $value
+     * @return string
+     */
+    public function prepareInput($value)
     {
-        $result = false;
-
-        if (! is_array($input) && ! is_string($input)) {
-            return false;
-        }
-
-        if (! is_array($input)) {
-            if (! $result = preg_match($pattern, $this->applyExceptions($input))) {
-                return false;
-            }
-
-            return $this->checkContent($result);
-        }
-
-        foreach ($input as $key => $value) {
-            if (empty($value)) {
-                continue;
-            }
-
-            if (is_array($value)) {
-                if (! $result = $this->match($pattern, $value)) {
-                    continue;
-                }
-
-                break;
-            }
-
-            if (! $this->isInput($key)) {
-                continue;
-            }
-
-            if (! $result = preg_match($pattern, $this->applyExceptions($value))) {
-                continue;
-            }
-
-            if (! $this->checkContent($result)) {
-                continue;
-            }
-
-            break;
-        }
-
-        return $result;
+        return $this->applyExceptions($value);
     }
 
+    /**
+     * @param string $string
+     * @return string
+     */
     protected function applyExceptions($string)
     {
-        $exceptions = config('firewall.middleware.' . $this->middleware . '.exceptions');
+        $exceptions = (array) config('firewall.middleware.' . $this->middleware . '.exceptions', []);
 
         $domain = $this->request->getHost();
 
@@ -65,16 +34,5 @@ class Rfi extends Middleware
         $exceptions[] = 'https://&';
 
         return str_replace($exceptions, '', $string);
-    }
-
-    protected function checkContent($value)
-    {
-        $contents = @file_get_contents($value);
-
-        if (!empty($contents)) {
-            return (strstr($contents, '<?php') !== false);
-        }
-
-        return false;
     }
 }
