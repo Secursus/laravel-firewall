@@ -77,6 +77,33 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
+     * Passwords a real user could legitimately choose. Credential fields are hashed, never
+     * interpolated into SQL and never rendered, so scanning them buys nothing while a 403
+     * on sign-up (then a ban after three attempts) is a real cost.
+     *
+     * @return list<string>
+     */
+    public function credentialPayloads(): array
+    {
+        return [
+            "P@ssw0rd'--select from",
+            '<img src=x onerror=1>',
+            "Xk<9!mQ'2--pL",
+            "' OR '1'='1",
+            'Tr0ub4dor&3</script>',
+            'zip://../../etc/passwd',
+        ];
+    }
+
+    /**
+     * @return list<string>
+     */
+    public function credentialFields(): array
+    {
+        return ['password', 'password_confirmation', 'current_password', 'old_password'];
+    }
+
+    /**
      * Messages a real visitor could legitimately send. None of them may ever be blocked.
      *
      * @return list<string>

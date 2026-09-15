@@ -59,4 +59,16 @@ class LfiTest extends TestCase
             );
         }
     }
+
+    public function testShouldNotScanCredentialFields()
+    {
+        foreach ($this->credentialFields() as $field) {
+            foreach ($this->credentialPayloads() as $password) {
+                $this->assertFalse(
+                    $this->isBlocked(Lfi::class, [$field => $password], 'POST'),
+                    "Scans [{$field}] and would block the password: {$password}"
+                );
+            }
+        }
+    }
 }

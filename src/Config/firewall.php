@@ -1,5 +1,14 @@
 <?php
 
+$credential_inputs = [
+    'password',
+    'password_confirmation',
+    'current_password',
+    'new_password',
+    'new_password_confirmation',
+    'old_password',
+];
+
 return [
 
     'enabled' => env('FIREWALL_ENABLED', true),
@@ -182,7 +191,7 @@ return [
             ],
             'inputs' => [
                 'only' => [], // i.e. 'first_name'
-                'except' => [], // i.e. 'password'
+                'except' => $credential_inputs,
             ],
             // Real path traversal and stream wrappers. The previous '#\.\/#is' matched a bare
             // './', which is noisy on free text and misses every encoded variant.
@@ -221,7 +230,7 @@ return [
             ],
             'inputs' => [
                 'only' => [], // i.e. 'first_name'
-                'except' => [], // i.e. 'password'
+                'except' => $credential_inputs,
             ],
             // Plain strings on purpose: Php::match() uses stripos($value, $pattern) === 0,
             // so these are literal prefixes, not regexes. Converting them to regexes
@@ -274,7 +283,7 @@ return [
             // link will be blocked, then auto-banned after a few submissions.
             'inputs' => [
                 'only' => [], // i.e. 'first_name'
-                'except' => [], // i.e. 'message'
+                'except' => $credential_inputs,
             ],
             'patterns' => [
                 '#(http|ftp){1,1}(s){0,1}://.*#i',
@@ -297,7 +306,7 @@ return [
             ],
             'inputs' => [
                 'only' => [], // i.e. 'first_name'
-                'except' => [], // i.e. 'password'
+                'except' => $credential_inputs,
             ],
             'patterns' => [
                 '@[\|:]O:\d{1,}:"[\w_][\w\d_]{0,}":\d{1,}:{@i',
@@ -320,7 +329,7 @@ return [
             ],
             'inputs' => [
                 'only' => [], // i.e. 'first_name'
-                'except' => [], // i.e. 'password'
+                'except' => $credential_inputs,
             ],
             // Patterns require actual SQL syntax rather than a bare English keyword. The previous
             // '(union|insert|from|where|select|delete|having)' alternation matched ordinary
@@ -400,7 +409,7 @@ return [
 
             'inputs' => [
                 'only' => [], // i.e. 'first_name'
-                'except' => [], // i.e. 'password'
+                'except' => $credential_inputs,
             ],
 
             'patterns' => [
